@@ -1,4 +1,4 @@
-import { and, asc, eq, gt, inArray, sql } from 'drizzle-orm';
+import { and, asc, eq, getTableColumns, gt, inArray, sql } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import * as s from '@capsule/db';
 import { advanceUnitInput, createJobInput, idInput, shipUnitsInput } from '@capsule/shared';
@@ -14,8 +14,10 @@ export const jobsRouter = router({
     const [job] = await db.select().from(s.jobs).where(eq(s.jobs.id, input.id));
     if (!job) throw new TRPCError({ code: 'NOT_FOUND', message: 'Job not found' });
     const unitRows = await db
-      .select()
+      .select({ ...getTableColumns(s.units), currentStationName: s.stations.name })
       .from(s.units)
+      .leftJoin(s.routeSteps, eq(s.routeSteps.id, s.units.currentStepId))
+      .leftJoin(s.stations, eq(s.stations.id, s.routeSteps.stationId))
       .where(eq(s.units.jobId, input.id))
       .orderBy(asc(s.units.id));
     return { job, units: unitRows };
