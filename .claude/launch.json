@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["-C", "C:/Users/tyler/capsule-mes-v2/apps/web", "dev"],
+      "port": 5173
+    }
+  ]
+}
