@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { trpcServer } from '@hono/trpc-server';
 import { appRouter } from './router';
+import { getDb } from './context';
 import type { Context } from './trpc';
 
 const app = new Hono();
@@ -15,7 +16,7 @@ app.use(
   '/trpc/*',
   trpcServer({
     router: appRouter,
-    createContext: (): Context => ({ userId: null, stationId: null }),
+    createContext: (): Context => ({ getDb, userId: null, stationId: null }),
   })
 );
 

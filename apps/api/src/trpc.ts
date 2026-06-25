@@ -1,8 +1,10 @@
 import { initTRPC } from '@trpc/server';
+import type { Db } from '@capsule/db';
 
-// Request context. Phase 0 is unauthenticated; later this resolves the Supabase
-// user (and, for kiosk tokens, the operator's station_id) from the request.
+// Request context. `getDb` is lazy so unauthenticated/no-DB routes (health) work
+// without a database connection. Auth (Supabase user, kiosk station_id) lands here later.
 export type Context = {
+  getDb: () => Db;
   userId: string | null;
   stationId: number | null;
 };

@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./testing": "./src/testing.ts"
   },
   "types": "./src/index.ts",
   "scripts": {
@@ -17,6 +18,7 @@
     "pg": "^8.13.1"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.2.13",
     "@types/node": "^22.10.1",
     "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.28.1",
